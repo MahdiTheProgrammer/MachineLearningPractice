@@ -157,8 +157,8 @@ class LinearRegressionModel(nn.Module):
   def forward(self, x: torch.Tensor) -> torch.Tensor:
     return self.weights * x + self.bias 
 model_0 = LinearRegressionModel()
-loaded_model = model_0()
-loaded_model.load_state_dict(torch.load('model.pt'))
+model_0 = torch.load("save.pt")
+model_0.eval()
 with torch.inference_mode(): 
   y_preds = model_0(X_test)
 plot_predictions(predictions = y_preds)
@@ -169,7 +169,7 @@ loss_fn = nn.L1Loss()
 
 # Create the optimzer 
 optimizer = torch.optim.SGD(params=model_0.parameters(),
-                            lr=0.001)
+                            lr=0.00001)
 
 # Set the number of epochs (how many times the model pass over the training data)
 epochs = 100000
@@ -198,6 +198,7 @@ for epoch in range(epochs):
   # 5. Progress the optimizer
 
   optimizer.step()
+torch.save(model_0, 'save.pt')
 
 with torch.inference_mode(): 
   y_preds = model_0(X_test)
