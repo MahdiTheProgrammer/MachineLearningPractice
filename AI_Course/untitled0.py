@@ -173,8 +173,9 @@ optimizer = torch.optim.SGD(params=model_0.parameters(),
 
 # Set the number of epochs (how many times the model pass over the training data)
 epochs = 100000
-
-Loss_all = []
+train_loss_values = []
+test_loss_values = []
+epoch_count = []
 for epoch in range(epochs):
   ### Training 
 
@@ -198,6 +199,19 @@ for epoch in range(epochs):
   # 5. Progress the optimizer
 
   optimizer.step()
+
+  # 6. let's test our model and show result
+  model_0.eval()
+
+  with torch.inference_mode():
+    test_predictions = model_0(X_test)
+    test_loss = loss_fn(test_predictions, y_test)
+    if epoch%10000==0:
+      epoch_count.append(epoch)
+      train_loss_values.append(loss.detach().numpy())
+      test_loss_values.append(test_loss.detach().numpy())
+      print(f"Epoch: {epoch} | MAE Train Loss: {loss} | MAE Test Loss: {test_loss} ")
+
 torch.save(model_0, 'save.pt')
 
 with torch.inference_mode(): 
