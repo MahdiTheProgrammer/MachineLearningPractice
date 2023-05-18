@@ -157,7 +157,7 @@ class LinearRegressionModel(nn.Module):
   def forward(self, x: torch.Tensor) -> torch.Tensor:
     return self.weights * x + self.bias 
 model_0 = LinearRegressionModel()
-# model_0 = torch.load("save.pt")
+model_0 = torch.load("save.pt")
 model_0.eval()
 with torch.inference_mode(): 
   y_preds = model_0(X_test)
@@ -169,10 +169,10 @@ loss_fn = nn.L1Loss()
 
 # Create the optimzer 
 optimizer = torch.optim.SGD(params=model_0.parameters(),
-                            lr=0.0001)
+                            lr=0.00000001)
 
 # Set the number of epochs (how many times the model pass over the training data)
-epochs = 1000000
+epochs = 100000
 train_loss_values = []
 test_loss_values = []
 epoch_count = []
@@ -187,7 +187,7 @@ for epoch in range(epochs):
 
   # 2. Calculate the loss (how different are our models prediction to the ground truth)
   loss = loss_fn(y_pred, y_train)
-  if epoch % 100000 == 0:
+  if epoch % 10000 == 0:
     print(f"loss: {loss}")
     print(model_0.state_dict())
   # 3. Zreo grad of the optimizer 
@@ -206,7 +206,7 @@ for epoch in range(epochs):
   with torch.inference_mode():
     test_predictions = model_0(X_test)
     test_loss = loss_fn(test_predictions, y_test)
-    if epoch%100000==0:
+    if epoch%10000==0:
       epoch_count.append(epoch)
       train_loss_values.append(loss.detach().numpy())
       test_loss_values.append(test_loss.detach().numpy())
