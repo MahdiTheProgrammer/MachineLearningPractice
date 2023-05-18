@@ -87,7 +87,7 @@ import random
 
 # # My first training loop 
 import torch 
-from torch import nn 
+from torch import nn  
 import matplotlib.pyplot as plt
 
 #Create *known* parameters
