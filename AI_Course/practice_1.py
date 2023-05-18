@@ -4,6 +4,7 @@ import torch
 from torch import nn
 import matplotlib.pyplot as plt
 
+
 # LETS BUILD SOME DATA
 start = 1
 end = 101
